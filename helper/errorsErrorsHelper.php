@@ -16,7 +16,7 @@ class errorsErrorsHelper extends errorsErrorsHelper_Parent
     public function __construct()
     {
         if (!$this->_flux) {
-            $this->_flux = $this->_get_current_flux();
+            $this->_flux = $this->_get_flux();
         }
         if (!isset(Clementine::$register['errors'])) {
             Clementine::$register['errors'] = array();
@@ -57,18 +57,11 @@ class errorsErrorsHelper extends errorsErrorsHelper_Parent
         if (null === $flux) {
             $flux = $this->_flux;
         }
-        if (!isset(Clementine::$register['errors'][$flux])) {
-            Clementine::$register['errors'][$flux] = array();
-        }
         if (!isset(Clementine::$register['errors'][$flux][$type])) {
             Clementine::$register['errors'][$flux][$type] = array($erreur => $details);
         } else {
             if (isset(Clementine::$register['errors'][$flux][$type][$erreur])) {
                 Clementine::$register['errors'][$flux][$type][$erreur] = array_merge_recursive((array) Clementine::$register['errors'][$flux][$type][$erreur], (array) $details);
-                Clementine::$register['errors'][$flux][$type][$erreur] = array_unique(Clementine::$register['errors'][$flux][$type][$erreur]);
-                if (count(Clementine::$register['errors'][$flux][$type][$erreur]) == 1) {
-                    Clementine::$register['errors'][$flux][$type][$erreur] = $this->getModel('fonctions')->array_first(Clementine::$register['errors'][$flux][$type][$erreur]);
-                }
             } else {
                 Clementine::$register['errors'][$flux][$type][$erreur] = $details;
             }
@@ -96,20 +89,7 @@ class errorsErrorsHelper extends errorsErrorsHelper_Parent
         return Clementine::$register['errors'][$flux];
     }
 
-    public function flush($flux = null)
-    {
-        if (null === $flux) {
-            $flux = $this->_flux;
-        }
-        unset(Clementine::$register['errors'][$flux]);
-    }
-
-    public function getflux()
-    {
-        return array_keys(Clementine::$register['errors']);
-    }
-
-    private function _get_current_flux()
+    private function _get_flux()
     {
         $backtrace = debug_backtrace();
         if (isset($backtrace[2]['class'])) {
