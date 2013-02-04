@@ -1,10 +1,11 @@
 <?php
+$request = $this->getRequest();
 if (count($data['errors'])) {
-    if ($request->AJAX) {
+    if ($request['AJAX']) {
         $message = "Merci de vérifier les points suivants : \r\n- ";
     }
     foreach ($data['errors'] as $type => $errs) {
-        if ($request->AJAX) {
+        if ($request['AJAX']) {
             $message .= implode("\r\n- ", $errs);
             echo $message;
         } else {
