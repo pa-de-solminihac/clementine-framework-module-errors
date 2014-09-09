@@ -111,7 +111,7 @@ class errorsErrorsHelper extends errorsErrorsHelper_Parent
 
     private function _get_current_flux()
     {
-        $backtrace = debug_backtrace();
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         if (isset($backtrace[2]['class'])) {
             // appel depuis un modele, un controlleur, un helper...
             $obj = get_class($backtrace[2]['object']);
