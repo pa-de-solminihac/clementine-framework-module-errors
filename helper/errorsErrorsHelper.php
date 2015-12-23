@@ -113,12 +113,12 @@ class errorsErrorsHelper extends errorsErrorsHelper_Parent
     {
         // attention, on ne peut pas utiliser ici "DEBUG_BACKTRACE_IGNORE_ARGS"
         $backtrace = debug_backtrace();
-        if (isset($backtrace[2]['class'])) {
+        if (isset($backtrace[4]['class'])) {
             // appel depuis un modele, un controlleur, un helper...
-            $obj = get_class($backtrace[2]['object']);
+            $obj = get_class($backtrace[4]['object']);
         } else {
             // appel depuis une vue
-            $obj = get_class($backtrace[3]['object']);
+            $obj = get_class($backtrace[5]['object']);
         }
         return strtolower(preg_replace('/[A-Z][^A-Z]+$/', '', $obj));
     }
